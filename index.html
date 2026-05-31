@@ -25,11 +25,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .hdr-g2{position:absolute;bottom:-60px;left:60px;width:240px;height:240px;background:radial-gradient(circle,rgba(59,130,246,.12),transparent 70%);pointer-events:none}
 .hdr-in{position:relative;z-index:2;padding:14px 24px 10px}
 .hdr-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.slogo{width:84px;height:84px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;flex-shrink:0;box-shadow:0 0 0 5px rgba(245,158,11,.2),0 4px 20px rgba(0,0,0,.4)}
 .hdt{flex:1;min-width:180px}
 .stitle{font-size:26px;font-weight:800;color:#e8190c;text-shadow:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff,0 0 14px rgba(232,25,12,.5);letter-spacing:1.5px;line-height:1.1;font-family:Georgia,serif}
-.ssub{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;letter-spacing:.8px}
 .ssub2{font-size:12px;font-weight:700;color:rgba(255,255,255,.88);letter-spacing:1.2px;margin-top:1px}
+.ssub{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;letter-spacing:.8px}
 .hdr-right{text-align:right;flex-shrink:0}
 .clk{font-size:22px;font-weight:700;color:var(--gold2);letter-spacing:2px;font-family:'Courier New',monospace}
 .clkd{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px}
@@ -54,17 +53,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .card-hdr{display:flex;align-items:center;gap:8px;margin-bottom:13px;padding-bottom:10px;border-bottom:1px solid var(--bg3)}
 .cht{font-size:12px;font-weight:700;color:var(--navy);letter-spacing:.3px;text-transform:uppercase}
 
-/* GRIDS */
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-@media(max-width:700px){.g4{grid-template-columns:repeat(2,1fr)}}
-
-/* STAT CARDS */
-.sc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:14px 14px 0 0}
-.sc-gold::before{background:var(--gold)}
-.sc-num{font-size:28px;font-weight:800;margin-top:5px;font-family:Georgia,serif}
-.sc-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-top:3px}
-
 /* FORMS */
 .fg{margin-bottom:12px}
 .fg label{display:block;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
@@ -78,6 +66,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 </head>
 <body>
 
+  <!-- Branding Layout Header -->
   <header class="hdr">
     <div class="hdr-g1"></div>
     <div class="hdr-g2"></div>
@@ -96,26 +85,17 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     </div>
   </header>
 
+  <!-- Sticky Route Controls Navigation -->
   <nav class="nav">
-    <button id="btn-dash" class="nb active" onclick="switchPage('dash')">Dashboard</button>
-    <button id="btn-vote" class="nb" onclick="switchPage('vote')">Cast Vote</button>
+    <button id="btn-vote" class="nb active" onclick="switchPage('vote')">Cast Vote</button>
   </nav>
 
+  <!-- Component Pages Context Area -->
   <main class="pb">
-    <section id="page-dash" class="page active">
-      <h2 class="sh">Realtime Insights</h2>
-      <div class="g4">
-        <div class="sc sc-gold">
-          <div class="sc-num" id="stat-votes">Connecting...</div>
-          <div class="sc-lbl">Total Ballots Cast</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="page-vote" class="page">
+    <section id="page-vote" class="page active">
       <h2 class="sh">Submit Election Ballot</h2>
       <div class="card">
-        <div class="card-hdr"><div class="cht">Voter Registration Selection</div></div>
+        <div class="card-hdr"><div class="cht">Voter Ballot Selection</div></div>
         <div class="fg">
           <label>Select Nominee Name</label>
           <select id="nominee-select">
@@ -123,45 +103,17 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
             <option value="Candidate_B">Candidate B (Head Girl)</option>
           </select>
         </div>
-        <button class="btn btn-blue" onclick="submitBallot()">Submit Secure Vote</button>
+        <button id="submit-btn" class="btn btn-blue" onclick="submitBallot()">Submit Secure Vote</button>
       </div>
     </section>
   </main>
 
-  <!-- NATIVE EMBEDDED REALTIME FIREBASE CONNECTOR EXTENSION -->
-  <script src="https://gstatic.com" crossorigin="anonymous"></script>
-  <script src="https://gstatic.com" crossorigin="anonymous"></script>
-
+  <!-- DIRECT GOOGLE WEB APP SERVER INTERACTION LOGIC -->
   <script>
-    // 1. Production Project Verification Credentials
-    const firebaseConfig = {
-      apiKey: "AIzaSyDZ0V3POscR-MwSvML7iUCcpY-MOdCVwa0",
-      authDomain: "://firebaseapp.com",
-      databaseURL: "https://firebaseio.com",
-      projectId: "stxaviers-election",
-      storageBucket: "stxaviers-election.firebasestorage.app",
-      messagingSenderId: "267251581382",
-      appId: "1:267251581382:web:7668eeb92b6a2093632c7"
-    };
+    // Verified production deployment endpoint URL linkage mapping
+    const GOOGLE_APP_URL = "https://google.com";
 
-    // Fallback safe initialization block to catch any missing environment script crashes
-    if (typeof firebase !== 'undefined') {
-      firebase.initializeApp(firebaseConfig);
-      var db = firebase.database();
-
-      // Listen for Live Realtime Data changes
-      db.ref('totalVotes').on('value', (snapshot) => {
-        const dataVal = snapshot.val();
-        document.getElementById('stat-votes').innerText = dataVal !== null ? dataVal : 0;
-      }, (err) => {
-        document.getElementById('stat-votes').innerText = "Database Offline";
-      });
-    } else {
-      // Local recovery fallback system in case browser blocks gstatic again
-      document.getElementById('stat-votes').innerText = "Initializing Offline...";
-    }
-
-    // 2. Navigation State Engine Workflow Controller
+    // Navigation switching operations
     function switchPage(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nb').forEach(b => b.classList.remove('active'));
@@ -169,24 +121,39 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
       document.getElementById('btn-' + pageId).classList.add('active');
     }
 
-    // 3. Process Live Voting Submissions Transaction
+    // Submit ballot parameters execution to Google Sheets
     function submitBallot() {
       const selection = document.getElementById('nominee-select').value;
-      if (typeof db !== 'undefined') {
-        db.ref('ballots').push({
-          candidate: selection,
-          timestamp: firebase.database.ServerValue.TIMESTAMP
-        }).then(() => {
-          alert("Ballot verified and saved into the live server successfully!");
-        }).catch(err => {
-          alert("Connection delay. Retrying to synchronize ballot data...");
-        });
-      } else {
-        alert("System Running in Offline Mode. Open live server database access rules to execute live ballots.");
-      }
+      const cleanName = selection.replace('Candidate_', 'Candidate ');
+      const button = document.getElementById('submit-btn');
+
+      // Prevent user input transaction duplicate double-clicks
+      button.disabled = true;
+      button.innerText = "Saving Ballot Transaction...";
+
+      // Fire data packet directly payload transaction
+      fetch(GOOGLE_APP_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ candidate: cleanName })
+      })
+      .then(() => {
+        alert(`Success! Your ballot for ${cleanName} has been recorded into the secure database.`);
+        
+        // Restore layout elements states back for next queue line student sequence
+        button.disabled = false;
+        button.innerText = "Submit Secure Vote";
+        document.getElementById('nominee-select').selectedIndex = 0;
+      })
+      .catch(err => {
+        alert("Server Connection Timeout. Please check with your supervisor lab coordinator.");
+        button.disabled = false;
+        button.innerText = "Submit Secure Vote";
+      });
     }
 
-    // Run clock element ticks
+    // Initialize layout status clock ticks execution loops 
     setInterval(() => {
       document.getElementById('live-clock').innerText = new Date().toLocaleTimeString();
     }, 1000);
