@@ -123,35 +123,35 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 
     // Submit ballot parameters execution to Google Sheets
     function submitBallot() {
-      const selection = document.getElementById('nominee-select').value;
-      const cleanName = selection.replace('Candidate_', 'Candidate ');
-      const button = document.getElementById('submit-btn');
+  const selection = document.getElementById('nominee-select').value;
+  const cleanName = selection.replace('Candidate_', 'Candidate ');
+  const button = document.getElementById('submit-btn');
 
-      // Prevent user input transaction duplicate double-clicks
-      button.disabled = true;
-      button.innerText = "Saving Ballot Transaction...";
+  // Prevent duplicate double-clicks
+  button.disabled = true;
+  button.innerText = "Saving Ballot Transaction...";
 
-      // Fire data packet directly payload transaction
-      fetch(GOOGLE_APP_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ candidate: cleanName })
-      })
-      .then(() => {
-        alert(`Success! Your ballot for ${cleanName} has been recorded into the secure database.`);
-        
-        // Restore layout elements states back for next queue line student sequence
-        button.disabled = false;
-        button.innerText = "Submit Secure Vote";
-        document.getElementById('nominee-select').selectedIndex = 0;
-      })
-      .catch(err => {
-        alert("Server Connection Timeout. Please check with your supervisor lab coordinator.");
-        button.disabled = false;
-        button.innerText = "Submit Secure Vote";
-      });
-    }
+  // Format the data into URL parameters so 'no-cors' mode works seamlessly
+  const targetUrl = GOOGLE_APP_URL + "?candidate=" + encodeURIComponent(cleanName);
+
+  fetch(targetUrl, {
+    method: "POST",
+    mode: "no-cors"
+  })
+  .then(() => {
+    alert(`Success! Your ballot for ${cleanName} has been recorded into the secure database.`);
+    
+    // Restore layout elements for the next student in line
+    button.disabled = false;
+    button.innerText = "Submit Secure Vote";
+    document.getElementById('nominee-select').selectedIndex = 0;
+  })
+  .catch(err => {
+    alert("Server Connection Timeout. Please check with your lab coordinator.");
+    button.disabled = false;
+    button.innerText = "Submit Secure Vote";
+  });
+}
 
     // Initialize layout status clock ticks execution loops 
     setInterval(() => {
