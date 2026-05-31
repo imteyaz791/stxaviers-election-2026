@@ -134,7 +134,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 </head>
 <body>
 
-  <!-- Layout Header Banner -->
+  <!-- Layout Header Banner Component -->
   <header class="hdr">
     <div class="hdr-g1"></div>
     <div class="hdr-g2"></div>
@@ -153,15 +153,15 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     </div>
   </header>
 
-  <!-- Sticky Dashboard Navigation Tabs -->
+  <!-- Navigation Management Controls -->
   <nav class="nav">
     <button id="btn-dash" class="nb active" onclick="switchPage('dash')">Dashboard</button>
     <button id="btn-vote" class="nb" onclick="switchPage('vote')">Cast Vote</button>
   </nav>
 
-  <!-- Page Views Workspace Area -->
+  <!-- Application Dynamic Page Workspace Container -->
   <main class="pb">
-    <!-- View 1: Analytics Dashboard -->
+    <!-- Screen View 1: Analytics Overview Router -->
     <section id="page-dash" class="page active">
       <h2 class="sh">Realtime Insights</h2>
       <div class="g4">
@@ -172,7 +172,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
       </div>
     </section>
 
-    <!-- View 2: Ballot Action -->
+    <!-- Screen View 2: Ballot Submission Workspace -->
     <section id="page-vote" class="page">
       <h2 class="sh">Submit Election Ballot</h2>
       <div class="card">
@@ -180,4 +180,3 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
         <div class="fg">
           <label>Select Nominee Name</label>
           <select id="nominee-select">
-            <option value="Candidate_A">Candidate A (Head Boy)</option>
