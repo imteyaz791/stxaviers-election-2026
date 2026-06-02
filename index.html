@@ -558,19 +558,37 @@ function storeConfig(cfg){
 }
 
 async function saveFirebaseConfig(){
-  const cfg = {
-    apiKey: document.getElementById("fb_apiKey")?.value.trim() || "",
-    authDomain: document.getElementById("fb_authDomain")?.value.trim() || "",
-    databaseURL: document.getElementById("fb_databaseURL")?.value.trim() || "",
-    projectId: document.getElementById("fb_projectId")?.value.trim() || "",
-    appId: document.getElementById("fb_appId")?.value.trim() || "",
-    storageBucket: (document.getElementById("fb_storageBucket") && document.getElementById("fb_storageBucket").value.trim()) ||
-                   (document.getElementById("fb_projectId")?.value.trim() ? document.getElementById("fb_projectId").value.trim()+".appspot.com" : ""),
-    messagingSenderId: (document.getElementById("fb_messagingSenderId") && document.getElementById("fb_messagingSenderId").value.trim()) || ""
-  };
-  if(!cfg.apiKey||!cfg.databaseURL||!cfg.projectId){
-    toast("Please fill all required Firebase fields!","e"); return;
+  // helper: try to read input value from admin panel first, then quick-setup, then by id
+  function getFbInput(name){
+    const tries = [
+      '#atFirebase #fb_' + name,    // Admin tab inputs (preferred)
+      '#firebaseSetup #fb_' + name, // Quick-setup inputs
+      '#fb_' + name                 // fallback
+    ];
+    for(const s of tries){
+      const el = document.querySelector(s);
+      if(el && el.value && el.value.trim() !== "") return el.value.trim();
+    }
+    // If none has non-empty value, return empty string
+    const el = document.getElementById('fb_' + name);
+    return el ? (el.value || "").trim() : "";
   }
+
+  const cfg = {
+    apiKey: getFbInput('apiKey'),
+    authDomain: getFbInput('authDomain'),
+    databaseURL: getFbInput('databaseURL'),
+    projectId: getFbInput('projectId'),
+    appId: getFbInput('appId'),
+    storageBucket: getFbInput('storageBucket') || (getFbInput('projectId') ? getFbInput('projectId') + ".appspot.com" : ""),
+    messagingSenderId: getFbInput('messagingSenderId') || ""
+  };
+
+  if(!cfg.apiKey || !cfg.databaseURL || !cfg.projectId){
+    toast("Please fill all required Firebase fields!","e");
+    return;
+  }
+
   storeConfig(cfg);
   await initFirebase(cfg);
 }
