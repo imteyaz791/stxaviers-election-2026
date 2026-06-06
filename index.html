@@ -443,12 +443,21 @@ function listenAll(){
     else db.ref("positions").set(DEF_POS);
     rDash();
   });
+  
+  // Safe array conversion for Candidates
   db.ref("candidates").on("value",s=>{
-    D.cands=[];if(s.val())s.forEach(c=>D.cands.push(c.val()));rDash();
+    const val = s.val();
+    D.cands = val ? (Array.isArray(val) ? val : Object.values(val)) : [];
+    rDash();
   });
+  
   db.ref("votes").on("value",s=>{D.votes=s.val()||{};rDash();});
+  
+  // Safe array conversion for Voters
   db.ref("voters").on("value",s=>{
-    D.voters=[];if(s.val())s.forEach(v=>D.voters.push(v.val()));rDash();
+    const val = s.val();
+    D.voters = val ? (Array.isArray(val) ? val : Object.values(val)) : [];
+    rDash();
   });
 }
 
